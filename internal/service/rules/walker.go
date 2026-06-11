@@ -1,4 +1,4 @@
-package service
+package rules
 
 func walk(data any, cb func(key string, value any)) {
 	switch v := data.(type) {

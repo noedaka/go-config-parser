@@ -1,15 +1,15 @@
 package service
 
-type Severity string
+type severity string
 
 const (
-	Low    Severity = "LOW"
-	Medium Severity = "MEDIUM"
-	High   Severity = "HIGH"
+	Low    severity = "LOW"
+	Medium severity = "MEDIUM"
+	High   severity = "HIGH"
 )
 
 type Issue struct {
-	Severity       Severity
+	Severity       severity
 	Message        string
 	Recommendation string
 }

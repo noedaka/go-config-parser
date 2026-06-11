@@ -1,8 +1,10 @@
-package service
+package rules
 
 import (
 	"fmt"
 	"strings"
+
+	"github.com/noedaka/go-config-parser/internal/service"
 )
 
 type WeakAlgorithmRule struct {
@@ -20,8 +22,8 @@ func NewWeakAlgorithmRule() *WeakAlgorithmRule {
 
 func (r *WeakAlgorithmRule) Name() string { return "weak-algorithm" }
 
-func (r *WeakAlgorithmRule) Check(data any) []Issue {
-	var issues []Issue
+func (r *WeakAlgorithmRule) Check(data any) []service.Issue {
+	var issues []service.Issue
 	algoKeys := []string{"algorithm", "algo", "digest-algorithm", "hash", "cipher", "encryption"}
 	walk(data, func(key string, value any) {
 		kl := strings.ToLower(key)
@@ -29,8 +31,8 @@ func (r *WeakAlgorithmRule) Check(data any) []Issue {
 			if kl == ak {
 				if s, ok := value.(string); ok {
 					if r.weak[strings.ToLower(s)] {
-						issues = append(issues, Issue{
-							Severity:       High,
+						issues = append(issues, service.Issue{
+							Severity:       service.High,
 							Message:        fmt.Sprintf("слабый алгоритм %s в поле '%s'", s, key),
 							Recommendation: "Замените на стойкий алгоритм (SHA-256, AES-256 и т.п.)",
 						})

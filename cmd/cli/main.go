@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -10,6 +9,7 @@ import (
 	"github.com/noedaka/go-config-parser/internal/config"
 	"github.com/noedaka/go-config-parser/internal/parser"
 	"github.com/noedaka/go-config-parser/internal/service"
+	"github.com/noedaka/go-config-parser/internal/service/rules"
 )
 
 func main() {
@@ -32,17 +32,19 @@ func main() {
 		log.Fatalf("Reading error: %v\n", err)
 	}
 
-	data, err := parser.ParseConfig(input)
+	p := parser.Parser(parser.YamlJsonParser{})
+
+	data, err := p.ParseConfig(input)
 	if err != nil {
 		log.Fatalf("Parsing error: %v\n", err)
 	}
 
 	rules := []service.Rule{
-		service.DebugLogRule{},
-		service.PlaintextPasswordRule{},
-		service.ZeroHostRule{},
-		service.TLSDisabledRule{},
-		service.NewWeakAlgorithmRule(),
+		rules.DebugLogRule{},
+		rules.PlaintextPasswordRule{},
+		rules.ZeroHostRule{},
+		rules.TLSDisabledRule{},
+		rules.NewWeakAlgorithmRule(),
 	}
 
 	var issues []service.Issue
@@ -51,10 +53,12 @@ func main() {
 	}
 
 	for _, issue := range issues {
-		fmt.Printf("[%s] %s\nРекомендация: %s\n\n", issue.Severity, issue.Message, issue.Recommendation)
+		log.Printf("[%s] %s\nРекомендация: %s\n\n", issue.Severity, issue.Message, issue.Recommendation)
 	}
 
 	if len(issues) > 0 && !cfg.IsSilent {
-		return
+		log.Fatalf("Exiting with errors, because we some problems in config")
 	}
+	
+	log.Print("We have no problems or IsSilent flag is active")
 }
