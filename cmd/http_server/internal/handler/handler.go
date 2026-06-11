@@ -1,10 +1,8 @@
 package handler
 
 import (
-	"fmt"
 	"io"
 	"net/http"
-	"strings"
 
 	"github.com/noedaka/go-config-parser/internal/parser"
 	"github.com/noedaka/go-config-parser/internal/service"
@@ -33,13 +31,17 @@ func (h *Handler) ConfigRecommendationsByFileHandler(w http.ResponseWriter, r *h
 
 	p := parser.Parser(parser.YamlJsonParser{})
 	data, err := p.ParseConfig(fileBytes)
+	if err != nil {
+		http.Error(w, "Cannot parse data", http.StatusInternalServerError)
+		return
+	}
 
 	var issues []service.Issue
 	for _, rule := range h.rules {
 		issues = append(issues, rule.Check(data)...)
 	}
 
-	response := formatIssues(issues)
+	response := service.FormatIssues(issues)
 
 	if len(issues) > 0 {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
@@ -61,29 +63,25 @@ func (h *Handler) ConfigRecommendationsByBodyHandler(w http.ResponseWriter, r *h
 
 	p := parser.Parser(parser.YamlJsonParser{})
 	data, err := p.ParseConfig(body)
+	if err != nil {
+		http.Error(w, "Cannot parse data", http.StatusInternalServerError)
+		return
+	}
 
 	var issues []service.Issue
 	for _, rule := range h.rules {
 		issues = append(issues, rule.Check(data)...)
 	}
 
-	response := formatIssues(issues)
+	response := service.FormatIssues(issues)
 
 	if len(issues) > 0 {
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(response))
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Рекомендации к конфигурации не требуются"))
-}
-
-func formatIssues(issues []service.Issue) string {
-	var sb strings.Builder
-	for _, issue := range issues {
-		fmt.Fprintf(&sb, "[%s] %s\nРекомендация: %s\n\n",
-			issue.Severity, issue.Message, issue.Recommendation)
-	}
-	return sb.String()
 }

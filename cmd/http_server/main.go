@@ -44,14 +44,13 @@ func main() {
 		Handler: r,
 	}
 
-
-	// graceful shutdown
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		}
 	}()
 
 	log.Printf("Server is listening on 8080")
+	// graceful shutdown
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
