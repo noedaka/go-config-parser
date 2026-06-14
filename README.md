@@ -37,7 +37,7 @@ go run ./cmd/http_server/main.go
 
 ### Эндпоинты 
 POST	/api/config/recommendations/file - Загрузка файла multipart/form-data (поле config)  
-POST	/api/config/recommendations/ - Конфигурация в теле запроса (text/plain)  
+POST	/api/config/recommendations/ - Конфигурация в теле запроса  
 
 При наличии проблем: 400, тело -- текстовый список проблем и рекомендаций.  
 При отсутствии проблем: 200, тело -- сообщение "Рекомендации к конфигурации не требуются".
