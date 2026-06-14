@@ -13,11 +13,12 @@ import (
 type handler struct {
 	proto.UnimplementedConfigRecsServiceServer
 
-	rules []service.Rule
+	rules  []service.Rule
+	parser parser.Parser
 }
 
-func NewHandler(rules []service.Rule) *handler {
-	return &handler{rules: rules}
+func NewHandler(rules []service.Rule, parser parser.Parser) *handler {
+	return &handler{rules: rules, parser: parser}
 }
 
 func (h *handler) ConfigRecommendationsByFileHandler(
@@ -25,9 +26,7 @@ func (h *handler) ConfigRecommendationsByFileHandler(
 ) (*proto.RecsResponse, error) {
 	data := r.GetData()
 
-	p := parser.Parser(parser.YamlJsonParser{})
-	cfg, err := p.ParseConfig(data)
-
+	cfg, err := h.parser.ParseConfig(data)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Cannot parse data")
 	}
@@ -50,9 +49,7 @@ func (h *handler) ConfigRecommendationsByStringHandler(
 ) (*proto.RecsResponse, error) {
 	data := r.GetData()
 
-	p := parser.Parser(parser.YamlJsonParser{})
-	cfg, err := p.ParseConfig([]byte(data))
-
+	cfg, err := h.parser.ParseConfig([]byte(data))
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Cannot parse data")
 	}

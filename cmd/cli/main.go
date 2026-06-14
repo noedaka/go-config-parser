@@ -22,21 +22,21 @@ func main() {
 		input, err = io.ReadAll(os.Stdin)
 	} else {
 		if flag.NArg() == 0 {
-			log.Fatalf("File path not specified")
+			log.Fatalf("Путь к файлу не указан")
 		}
 
 		input, err = os.ReadFile(flag.Arg(0))
 	}
 
 	if err != nil {
-		log.Fatalf("Reading error: %v\n", err)
+		log.Fatalf("Ошибка чтения: %v\n", err)
 	}
 
 	p := parser.Parser(parser.YamlJsonParser{})
 
 	data, err := p.ParseConfig(input)
 	if err != nil {
-		log.Fatalf("Parsing error: %v\n", err)
+		log.Fatalf("Ошибка парсинга: %v\n", err)
 	}
 
 	rules := []service.Rule{
@@ -57,8 +57,8 @@ func main() {
 	}
 
 	if len(issues) > 0 && !cfg.IsSilent {
-		log.Fatalf("Exiting with errors, because we some problems in config")
+		log.Fatalf("Выходим с ошибкой, потому что есть проблемы в конфигурации.")
 	}
 	
-	log.Print("We have no problems or IsSilent flag is active")
+	log.Print("В конфиге нет ошибок или флаг IsSilent активен.")
 }

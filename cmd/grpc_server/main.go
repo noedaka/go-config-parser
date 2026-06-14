@@ -11,6 +11,7 @@ import (
 
 	"github.com/noedaka/go-config-parser/cmd/grpc_server/internal/handler"
 	"github.com/noedaka/go-config-parser/cmd/grpc_server/internal/proto"
+	"github.com/noedaka/go-config-parser/internal/parser"
 	"github.com/noedaka/go-config-parser/internal/service"
 	"github.com/noedaka/go-config-parser/internal/service/rules"
 	"google.golang.org/grpc"
@@ -25,7 +26,8 @@ func main() {
 		rules.NewWeakAlgorithmRule(),
 	}
 
-	handler := handler.NewHandler(rules)
+	parser := parser.YamlJsonParser{}
+	handler := handler.NewHandler(rules, parser)
 	grpcServer := grpc.NewServer()
 	proto.RegisterConfigRecsServiceServer(grpcServer, handler)
 

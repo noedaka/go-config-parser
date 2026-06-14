@@ -11,6 +11,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/noedaka/go-config-parser/cmd/http_server/internal/handler"
+	"github.com/noedaka/go-config-parser/internal/parser"
 	"github.com/noedaka/go-config-parser/internal/service"
 	"github.com/noedaka/go-config-parser/internal/service/rules"
 )
@@ -26,7 +27,8 @@ func main() {
 		rules.NewWeakAlgorithmRule(),
 	}
 
-	handler := handler.NewHandler(rules)
+	parser := parser.YamlJsonParser{}
+	handler := handler.NewHandler(rules, parser)
 
 	r.Route("/", func(r chi.Router) {
 		r.Route("/api", func(r chi.Router) {

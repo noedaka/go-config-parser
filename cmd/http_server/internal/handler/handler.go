@@ -9,11 +9,12 @@ import (
 )
 
 type Handler struct {
-	rules []service.Rule
+	rules  []service.Rule
+	parser parser.Parser
 }
 
-func NewHandler(rules []service.Rule) *Handler {
-	return &Handler{rules: rules}
+func NewHandler(rules []service.Rule, parser parser.Parser) *Handler {
+	return &Handler{rules: rules, parser: parser}
 }
 
 func (h *Handler) ConfigRecommendationsByFileHandler(w http.ResponseWriter, r *http.Request) {
@@ -29,8 +30,7 @@ func (h *Handler) ConfigRecommendationsByFileHandler(w http.ResponseWriter, r *h
 		return
 	}
 
-	p := parser.Parser(parser.YamlJsonParser{})
-	data, err := p.ParseConfig(fileBytes)
+	data, err := h.parser.ParseConfig(fileBytes)
 	if err != nil {
 		http.Error(w, "Cannot parse data", http.StatusInternalServerError)
 		return
@@ -61,8 +61,7 @@ func (h *Handler) ConfigRecommendationsByBodyHandler(w http.ResponseWriter, r *h
 	}
 	defer r.Body.Close()
 
-	p := parser.Parser(parser.YamlJsonParser{})
-	data, err := p.ParseConfig(body)
+	data, err := h.parser.ParseConfig(body)
 	if err != nil {
 		http.Error(w, "Cannot parse data", http.StatusInternalServerError)
 		return
