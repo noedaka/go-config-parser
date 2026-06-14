@@ -76,7 +76,6 @@ func main() {
 		} else {
 			filePath = target
 
-			// проверка прав доступа файла
 			if permIssue := permissioncheck.CheckFilePermissions(target); permIssue != nil {
 				allFileIssues = append(allFileIssues, recursivecheck.FileIssue{
 					Issue:    *permIssue,
