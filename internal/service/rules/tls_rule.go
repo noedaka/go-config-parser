@@ -20,7 +20,6 @@ func (r TLSDisabledRule) Check(data any) []service.Issue {
 		if !ok {
 			return
 		}
-		// проверка на прямое отключение
 		if v, exists := tlsMap["enabled"]; exists {
 			if b, ok := v.(bool); ok && !b {
 				issues = append(issues, service.Issue{
@@ -30,7 +29,6 @@ func (r TLSDisabledRule) Check(data any) []service.Issue {
 				})
 			}
 		}
-		// проверка небезопасных настроек проверки
 		if v, exists := tlsMap["insecure_skip_verify"]; exists {
 			if b, ok := v.(bool); ok && b {
 				issues = append(issues, service.Issue{

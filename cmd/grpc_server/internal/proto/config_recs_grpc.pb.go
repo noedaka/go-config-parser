@@ -19,7 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ConfigRecsService_GetConfigRecsByFile_FullMethodName   = "/parse.go_config_parser.ConfigRecsService/GetConfigRecsByFile"
 	ConfigRecsService_GetConfigRecsByString_FullMethodName = "/parse.go_config_parser.ConfigRecsService/GetConfigRecsByString"
 )
 
@@ -27,7 +26,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ConfigRecsServiceClient interface {
-	GetConfigRecsByFile(ctx context.Context, in *ConfigFileRequest, opts ...grpc.CallOption) (*RecsResponse, error)
 	GetConfigRecsByString(ctx context.Context, in *ConfigStringRequest, opts ...grpc.CallOption) (*RecsResponse, error)
 }
 
@@ -37,16 +35,6 @@ type configRecsServiceClient struct {
 
 func NewConfigRecsServiceClient(cc grpc.ClientConnInterface) ConfigRecsServiceClient {
 	return &configRecsServiceClient{cc}
-}
-
-func (c *configRecsServiceClient) GetConfigRecsByFile(ctx context.Context, in *ConfigFileRequest, opts ...grpc.CallOption) (*RecsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RecsResponse)
-	err := c.cc.Invoke(ctx, ConfigRecsService_GetConfigRecsByFile_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *configRecsServiceClient) GetConfigRecsByString(ctx context.Context, in *ConfigStringRequest, opts ...grpc.CallOption) (*RecsResponse, error) {
@@ -63,7 +51,6 @@ func (c *configRecsServiceClient) GetConfigRecsByString(ctx context.Context, in 
 // All implementations must embed UnimplementedConfigRecsServiceServer
 // for forward compatibility.
 type ConfigRecsServiceServer interface {
-	GetConfigRecsByFile(context.Context, *ConfigFileRequest) (*RecsResponse, error)
 	GetConfigRecsByString(context.Context, *ConfigStringRequest) (*RecsResponse, error)
 	mustEmbedUnimplementedConfigRecsServiceServer()
 }
@@ -75,9 +62,6 @@ type ConfigRecsServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedConfigRecsServiceServer struct{}
 
-func (UnimplementedConfigRecsServiceServer) GetConfigRecsByFile(context.Context, *ConfigFileRequest) (*RecsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetConfigRecsByFile not implemented")
-}
 func (UnimplementedConfigRecsServiceServer) GetConfigRecsByString(context.Context, *ConfigStringRequest) (*RecsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetConfigRecsByString not implemented")
 }
@@ -100,24 +84,6 @@ func RegisterConfigRecsServiceServer(s grpc.ServiceRegistrar, srv ConfigRecsServ
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&ConfigRecsService_ServiceDesc, srv)
-}
-
-func _ConfigRecsService_GetConfigRecsByFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfigFileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ConfigRecsServiceServer).GetConfigRecsByFile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ConfigRecsService_GetConfigRecsByFile_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ConfigRecsServiceServer).GetConfigRecsByFile(ctx, req.(*ConfigFileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _ConfigRecsService_GetConfigRecsByString_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -145,10 +111,6 @@ var ConfigRecsService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "parse.go_config_parser.ConfigRecsService",
 	HandlerType: (*ConfigRecsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetConfigRecsByFile",
-			Handler:    _ConfigRecsService_GetConfigRecsByFile_Handler,
-		},
 		{
 			MethodName: "GetConfigRecsByString",
 			Handler:    _ConfigRecsService_GetConfigRecsByString_Handler,

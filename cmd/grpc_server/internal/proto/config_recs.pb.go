@@ -20,84 +20,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ConfigFileRequest struct {
-	state                  protoimpl.MessageState `protogen:"opaque.v1"`
-	xxx_hidden_Data        []byte                 `protobuf:"bytes,1,opt,name=data"`
-	XXX_raceDetectHookData protoimpl.RaceDetectHookData
-	XXX_presence           [1]uint32
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
-}
-
-func (x *ConfigFileRequest) Reset() {
-	*x = ConfigFileRequest{}
-	mi := &file_config_recs_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ConfigFileRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ConfigFileRequest) ProtoMessage() {}
-
-func (x *ConfigFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_config_recs_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-func (x *ConfigFileRequest) GetData() []byte {
-	if x != nil {
-		return x.xxx_hidden_Data
-	}
-	return nil
-}
-
-func (x *ConfigFileRequest) SetData(v []byte) {
-	if v == nil {
-		v = []byte{}
-	}
-	x.xxx_hidden_Data = v
-	protoimpl.X.SetPresent(&(x.XXX_presence[0]), 0, 1)
-}
-
-func (x *ConfigFileRequest) HasData() bool {
-	if x == nil {
-		return false
-	}
-	return protoimpl.X.Present(&(x.XXX_presence[0]), 0)
-}
-
-func (x *ConfigFileRequest) ClearData() {
-	protoimpl.X.ClearPresent(&(x.XXX_presence[0]), 0)
-	x.xxx_hidden_Data = nil
-}
-
-type ConfigFileRequest_builder struct {
-	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
-
-	Data []byte
-}
-
-func (b0 ConfigFileRequest_builder) Build() *ConfigFileRequest {
-	m0 := &ConfigFileRequest{}
-	b, x := &b0, m0
-	_, _ = b, x
-	if b.Data != nil {
-		protoimpl.X.SetPresentNonAtomic(&(x.XXX_presence[0]), 0, 1)
-		x.xxx_hidden_Data = b.Data
-	}
-	return m0
-}
-
 type ConfigStringRequest struct {
 	state                  protoimpl.MessageState `protogen:"opaque.v1"`
 	xxx_hidden_Data        *string                `protobuf:"bytes,1,opt,name=data"`
@@ -109,7 +31,7 @@ type ConfigStringRequest struct {
 
 func (x *ConfigStringRequest) Reset() {
 	*x = ConfigStringRequest{}
-	mi := &file_config_recs_proto_msgTypes[1]
+	mi := &file_config_recs_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -121,7 +43,7 @@ func (x *ConfigStringRequest) String() string {
 func (*ConfigStringRequest) ProtoMessage() {}
 
 func (x *ConfigStringRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_config_recs_proto_msgTypes[1]
+	mi := &file_config_recs_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -187,7 +109,7 @@ type RecsResponse struct {
 
 func (x *RecsResponse) Reset() {
 	*x = RecsResponse{}
-	mi := &file_config_recs_proto_msgTypes[2]
+	mi := &file_config_recs_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -199,7 +121,7 @@ func (x *RecsResponse) String() string {
 func (*RecsResponse) ProtoMessage() {}
 
 func (x *RecsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_config_recs_proto_msgTypes[2]
+	mi := &file_config_recs_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -258,30 +180,24 @@ var File_config_recs_proto protoreflect.FileDescriptor
 
 const file_config_recs_proto_rawDesc = "" +
 	"\n" +
-	"\x11config_recs.proto\x12\x16parse.go_config_parser\"'\n" +
-	"\x11ConfigFileRequest\x12\x12\n" +
-	"\x04data\x18\x01 \x01(\fR\x04data\")\n" +
+	"\x11config_recs.proto\x12\x16parse.go_config_parser\")\n" +
 	"\x13ConfigStringRequest\x12\x12\n" +
 	"\x04data\x18\x01 \x01(\tR\x04data\"\"\n" +
 	"\fRecsResponse\x12\x12\n" +
-	"\x04recs\x18\x01 \x01(\tR\x04recs2\xe7\x01\n" +
-	"\x11ConfigRecsService\x12f\n" +
-	"\x13GetConfigRecsByFile\x12).parse.go_config_parser.ConfigFileRequest\x1a$.parse.go_config_parser.RecsResponse\x12j\n" +
+	"\x04recs\x18\x01 \x01(\tR\x04recs2\x7f\n" +
+	"\x11ConfigRecsService\x12j\n" +
 	"\x15GetConfigRecsByString\x12+.parse.go_config_parser.ConfigStringRequest\x1a$.parse.go_config_parser.RecsResponseB4Z2github.com/noedaka/go-config-parser/internal/protob\beditionsp\xe8\a"
 
-var file_config_recs_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_config_recs_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_config_recs_proto_goTypes = []any{
-	(*ConfigFileRequest)(nil),   // 0: parse.go_config_parser.ConfigFileRequest
-	(*ConfigStringRequest)(nil), // 1: parse.go_config_parser.ConfigStringRequest
-	(*RecsResponse)(nil),        // 2: parse.go_config_parser.RecsResponse
+	(*ConfigStringRequest)(nil), // 0: parse.go_config_parser.ConfigStringRequest
+	(*RecsResponse)(nil),        // 1: parse.go_config_parser.RecsResponse
 }
 var file_config_recs_proto_depIdxs = []int32{
-	0, // 0: parse.go_config_parser.ConfigRecsService.GetConfigRecsByFile:input_type -> parse.go_config_parser.ConfigFileRequest
-	1, // 1: parse.go_config_parser.ConfigRecsService.GetConfigRecsByString:input_type -> parse.go_config_parser.ConfigStringRequest
-	2, // 2: parse.go_config_parser.ConfigRecsService.GetConfigRecsByFile:output_type -> parse.go_config_parser.RecsResponse
-	2, // 3: parse.go_config_parser.ConfigRecsService.GetConfigRecsByString:output_type -> parse.go_config_parser.RecsResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	0, // 0: parse.go_config_parser.ConfigRecsService.GetConfigRecsByString:input_type -> parse.go_config_parser.ConfigStringRequest
+	1, // 1: parse.go_config_parser.ConfigRecsService.GetConfigRecsByString:output_type -> parse.go_config_parser.RecsResponse
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -298,7 +214,7 @@ func file_config_recs_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_config_recs_proto_rawDesc), len(file_config_recs_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

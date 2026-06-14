@@ -19,7 +19,6 @@ func (r PlaintextPasswordRule) Check(data any) []service.Issue {
 		for _, sk := range suspiciousKeys {
 			if strings.Contains(keyLower, sk) {
 				if s, ok := value.(string); ok && s != "" {
-					// пропускаем хэшированные строки
 					if strings.HasPrefix(s, "$") || strings.HasPrefix(s, "${") {
 						continue
 					}

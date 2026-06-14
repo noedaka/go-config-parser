@@ -4,10 +4,6 @@ package parse.go_config_parser;
 
 option go_package = "github.com/noedaka/go-config-parser/internal/proto";
 
-message ConfigFileRequest {
-    bytes data = 1;
-}
-
 message ConfigStringRequest {
     string data = 1;
 }
@@ -17,6 +13,5 @@ message RecsResponse {
 }
 
 service ConfigRecsService {
-    rpc GetConfigRecsByFile (ConfigFileRequest) returns (RecsResponse);
-    rpc GetConfigRecsByString (ConfigStringRequest ) returns (RecsResponse);
+    rpc GetConfigRecsByString (ConfigStringRequest) returns (RecsResponse);
 }

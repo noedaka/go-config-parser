@@ -21,6 +21,7 @@ func (h *Handler) ConfigRecommendationsByFileHandler(w http.ResponseWriter, r *h
 	file, _, err := r.FormFile("config")
 	if err != nil {
 		http.Error(w, "Error getting the file", http.StatusBadRequest)
+		return
 	}
 	defer file.Close()
 
@@ -47,6 +48,7 @@ func (h *Handler) ConfigRecommendationsByFileHandler(w http.ResponseWriter, r *h
 		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(response))
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
